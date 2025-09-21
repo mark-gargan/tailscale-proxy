@@ -1,0 +1,27 @@
+{
+  "containers": {
+    "proxy": {
+      "image": "__IMAGE__",
+      "command": [],
+      "environment": {
+        "PORT": "8080",
+        "LISTEN_ADDR": ":8080",
+        "ROUTES": "/api=http://backend:9000",
+        "AUTH_MODE": "shared_secret",
+        "AUTH_SHARED_SECRET": "change-me",
+        "TS_AUTHKEY": "tskey-ephemeral-...",
+        "TS_HOSTNAME": "ls-proxy-01",
+        "TS_SERVE_MODE": "tcp",
+        "TS_SERVE_TCP_PORT": "443"
+      },
+      "healthCheck": {
+        "path": "/",
+        "intervalSeconds": 20,
+        "timeoutSeconds": 2,
+        "healthyThreshold": 2,
+        "unhealthyThreshold": 5
+      }
+    }
+  }
+}
+

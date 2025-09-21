@@ -1,0 +1,12 @@
+.git
+.github
+bin
+dist
+.env
+.env.*
+infra/terraform/.terraform
+infra/terraform/terraform.tfstate*
+**/.DS_Store
+**/.vscode
+**/.idea
+

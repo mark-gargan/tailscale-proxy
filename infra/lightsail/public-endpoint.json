@@ -1,0 +1,12 @@
+{
+  "containerName": "proxy",
+  "containerPort": 80,
+  "healthCheck": {
+    "path": "/",
+    "intervalSeconds": 20,
+    "timeoutSeconds": 2,
+    "healthyThreshold": 2,
+    "unhealthyThreshold": 5
+  }
+}
+
