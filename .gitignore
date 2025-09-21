@@ -1,0 +1,16 @@
+# Local environment
+.env
+.env.local
+.env.*.local
+
+# Build artifacts
+bin/
+dist/
+*.exe
+*.out
+
+# Editor files
+.DS_Store
+.idea/
+.vscode/
+
