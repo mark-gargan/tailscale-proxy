@@ -10,11 +10,11 @@ This deploys the Docker image to an AWS Lightsail Container Service in eu-west-1
 ## 1) Create the Container Service
 - `aws lightsail create-container-service --service-name tailscale-proxy --power micro --scale 1 --region eu-west-1`
 
-## 2) Build & Push the Image
-- Build: `docker build -t ts-proxy:local ../..`
-- Push to Lightsail registry:
-  - `IMG=$(aws lightsail push-container-image --service-name tailscale-proxy --label app --image ts-proxy:local --region eu-west-1 --query 'image' --output text)`
-  - This returns an image ref like `tailscale-proxy/app:latest` stored in Lightsail.
+## 2) Build & Push the Image (one-liner script)
+- Recommended: `bash scripts/deploy_lightsail.sh --mode private --service tailscale-proxy --region eu-west-1`
+- The script builds, pushes, substitutes the image into the spec, and deploys.
+  - For public endpoint: `bash scripts/deploy_lightsail.sh --mode public --service tailscale-proxy --region eu-west-1`
+  - Defaults: service `tailscale-proxy`, region `eu-west-1`, power `micro`, scale `1`.
 
 ## 3) Prepare Deployment Spec (tailnet-only)
 - Edit `infra/lightsail/containers.private.json` and replace `__IMAGE__` with `$IMG`.
@@ -23,6 +23,7 @@ This deploys the Docker image to an AWS Lightsail Container Service in eu-west-1
   - Proxy config: `LISTEN_ADDR`, `ROUTES`, `AUTH_MODE`, etc.
 
 ## 4) Deploy
+- If not using the script, deploy with:
 - `aws lightsail create-container-service-deployment \
     --service-name tailscale-proxy \
     --containers file://infra/lightsail/containers.private.json \
@@ -42,4 +43,3 @@ The service won’t expose public ports. Access it over your tailnet. The entryp
 ## Rotate Keys / Update Image
 - Push a new image (repeat step 2) and re-run the deployment with updated env.
 - Use ephemeral `TS_AUTHKEY` and rotate regularly.
-
